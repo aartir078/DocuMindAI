@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocuMind AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 DocuMind AI</h1>
+            <p>Ask questions about your PDFs and websites using AI.</p>
+        </header>
+
+        {% if message %}
+        <div class="message">{{ message }}</div>
+        {% endif %}
+
+        <section class="card">
+            <h2>📄 Upload a PDF</h2>
+            <form method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="action" value="upload">
+                <input type="file" name="pdf_file" accept=".pdf" required>
+                <button type="submit">Upload PDF</button>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>🌐 Add a Website</h2>
+            <form method="POST">
+                <input type="hidden" name="action" value="website">
+                <input type="url" name="url"
+                       placeholder="https://example.com" required>
+                <button type="submit">Process Website</button>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>💬 Ask a Question</h2>
+            <form method="POST">
+                <input type="hidden" name="action" value="ask">
+                <textarea name="question" rows="3"
+                          placeholder="Ask something about your document..."
+                          required>{{ question }}</textarea>
+                <button type="submit">Ask DocuMind AI</button>
+            </form>
+
+            {% if answer %}
+            <div class="answer">
+                <h3>AI Answer</h3>
+                <p>{{ answer }}</p>
+
+                {% if sources %}
+                <h4>Sources</h4>
+                <ul>
+                    {% for source in sources %}
+                    <li>{{ source }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            {% endif %}
+        </section>
+
+        <footer>DocuMind AI | Smart Document Question Answering</footer>
+    </div>
+</body>
+</html>
